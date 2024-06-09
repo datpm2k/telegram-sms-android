@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/bot_token"
+            android:text="@string/bot_token" />
+
+        <EditText
+            android:id="@+id/bot_token"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="bot_token"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/chat_id"
+            android:text="@string/chat_id" />
+
+        <EditText
+            android:id="@+id/chat_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="chat_id"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/trusted_phone_number"
+            android:text="@string/trusted_phone_number" />
+
+        <EditText
+            android:id="@+id/trusted_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="trusted_phone_number"
+            android:inputType="phone" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/save" />
+
+    </LinearLayout>
+
+</FrameLayout>
