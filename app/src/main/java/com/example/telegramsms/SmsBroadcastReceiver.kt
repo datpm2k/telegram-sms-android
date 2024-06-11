@@ -15,7 +15,8 @@ import org.json.JSONObject
 class SmsBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.i("SmsBroadcastReceiver", "onReceive")
+        Log.d("[SmsBroadcastReceiver]", "onReceive")
+
         if (intent?.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
             val bundle = intent.extras
             if (bundle != null) {
@@ -27,13 +28,18 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
                         val sender = smsMessage.displayOriginatingAddress
                         val message = smsMessage.displayMessageBody
 
-                        Log.i("SmsBroadcastReceiver", "Sender: $sender, Message: $message")
+                        Log.i("[SmsBroadcastReceiver]", "Sender: $sender, Message: $message")
 
                         Toast.makeText(
                             context,
                             "Sender: $sender\nMessage: $message",
                             Toast.LENGTH_SHORT
                         ).show()
+
+                        val trustedPhoneNumbers: List<String> = arrayListOf("5298")
+                        if (!trustedPhoneNumbers.contains(sender)) {
+                            return
+                        }
 
                         val apiRequest = JSONObject()
                         apiRequest.put("sender", sender)

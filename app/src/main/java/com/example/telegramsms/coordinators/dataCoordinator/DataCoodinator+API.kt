@@ -2,17 +2,17 @@ package com.example.telegramsms.coordinators.dataCoordinator
 
 import android.util.Log
 import com.android.volley.Request
-import com.android.volley.toolbox.HttpHeaderParser
 import com.example.telegramsms.coordinators.dataCoordinator.DataCoordinator.Companion.IDENTIFIER
-import com.example.telegramsms.models.api.ErrorResponse
-import com.example.telegramsms.models.api.ForwardSMSResponse
+import com.example.telegramsms.models.api.BaseResponse
 import com.example.telegramsms.models.constants.DebuggingIdentifiers
 import com.example.telegramsms.utils.data.GsonRequest
-import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
-import java.nio.charset.Charset
+
+const val baseUrl: String = "https://207e-123-21-117-25.ngrok-free.app"
+const val forwardSMSPath: String = "/api/v1/sms/forward"
+const val xApiKey: String = "Aqswde123@@"
 
 fun DataCoordinator.callAPI(payload: JSONObject) {
     callAPI(
@@ -31,33 +31,36 @@ fun DataCoordinator.callAPI(
 
     // Create the headers
     val headers: MutableMap<String, String> = HashMap()
-    headers["x-api-key"] = "Aqswde123@@"
+    headers["x-api-key"] = xApiKey
     headers["content-type"] = "application/json"
 
     val request = GsonRequest(
-        "https://d5e7-123-21-117-25.ngrok-free.app/api/v1/sms/forward",
-        clazz = ForwardSMSResponse::class.java,
+        "$baseUrl$forwardSMSPath",
+        clazz = BaseResponse::class.java,
         method = Request.Method.POST,
         headers = headers,
         jsonPayload = payload,
         listener = {
-            Log.i(
-                IDENTIFIER,
-                "${DebuggingIdentifiers.ACTION_OR_EVENT_SUCCEEDED} request : $it.",
-            )
-            onSuccess()
+            if (it.code === "200") {
+                Log.i(
+                    IDENTIFIER,
+                    "${DebuggingIdentifiers.ACTION_OR_EVENT_SUCCEEDED} request : ${it.code}"
+                )
+                onSuccess()
+            } else {
+                Log.i(
+                    IDENTIFIER,
+                    "${DebuggingIdentifiers.ACTION_OR_EVENT_FAILED} request : ${it.message}",
+                )
+                onError()
+            }
         },
         errorListener = {
             val response = it.networkResponse
             try {
-                val errorJson = String(
-                    response.data,
-                    Charset.forName(HttpHeaderParser.parseCharset(response.headers))
-                )
-                val errorObj = Gson().fromJson(errorJson, ErrorResponse::class.java)
                 Log.i(
                     IDENTIFIER,
-                    "${DebuggingIdentifiers.ACTION_OR_EVENT_FAILED} request : ${errorObj.error}",
+                    "${DebuggingIdentifiers.ACTION_OR_EVENT_FAILED}",
                 )
                 onError()
             } catch (e: UnsupportedEncodingException) {
