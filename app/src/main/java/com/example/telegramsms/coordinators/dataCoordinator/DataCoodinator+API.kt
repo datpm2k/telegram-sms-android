@@ -10,7 +10,7 @@ import com.google.gson.JsonSyntaxException
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 
-const val baseUrl: String = "https://207e-123-21-117-25.ngrok-free.app"
+const val baseUrl: String = "http://ec2-3-113-1-234.ap-northeast-1.compute.amazonaws.com:8080"
 const val forwardSMSPath: String = "/api/v1/sms/forward"
 const val xApiKey: String = "Aqswde123@@"
 

@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        DataCoordinator.shared.initialize(applicationContext, onLoad = {})
+        DataCoordinator.shared().initialize(applicationContext, onLoad = {})
 
         val saveBtn = findViewById<Button>(R.id.save)
         saveBtn.setOnClickListener {

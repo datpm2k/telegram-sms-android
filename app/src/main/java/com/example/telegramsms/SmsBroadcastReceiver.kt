@@ -17,6 +17,10 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("[SmsBroadcastReceiver]", "onReceive")
 
+        var botToken: String = ""
+        var chatId: String = ""
+        var trustedPhoneNumbersStr: String = ""
+
         if (intent?.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
             val bundle = intent.extras
             if (bundle != null) {
@@ -30,21 +34,25 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
 
                         Log.i("[SmsBroadcastReceiver]", "Sender: $sender, Message: $message")
 
-                        Toast.makeText(
-                            context,
-                            "Sender: $sender\nMessage: $message",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        val trustedPhoneNumbers: List<String> = arrayListOf("5298")
-                        if (!trustedPhoneNumbers.contains(sender)) {
+                        if (trustedPhoneNumbersStr.trim() !== ""
+                            && !trustedPhoneNumbersStr.split(",").contains(sender)
+                        ) {
                             return
                         }
 
                         val apiRequest = JSONObject()
                         apiRequest.put("sender", sender)
                         apiRequest.put("message", message)
-                        DataCoordinator.shared.callAPI(apiRequest)
+                        apiRequest.put("botToken", botToken)
+                        apiRequest.put("chatId", chatId)
+                        apiRequest.put("trustedPhoneNumbers", trustedPhoneNumbersStr)
+                        DataCoordinator.shared().callAPI(apiRequest)
+
+                        Toast.makeText(
+                            context,
+                            "Sender: $sender\nMessage: $message",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
