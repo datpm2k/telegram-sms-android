@@ -9,11 +9,8 @@ import com.example.telegramsms.models.constants.DebuggingIdentifiers
 
 class DataCoordinator {
     companion object {
+        val shared = DataCoordinator()
         const val IDENTIFIER = "[DataCoordinator]"
-
-        fun shared(): DataCoordinator {
-            return DataCoordinator()
-        }
     }
 
     // MARK: Variables

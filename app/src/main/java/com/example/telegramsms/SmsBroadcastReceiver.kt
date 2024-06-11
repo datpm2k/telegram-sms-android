@@ -19,7 +19,7 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
 
         var botToken: String = ""
         var chatId: String = ""
-        var trustedPhoneNumbersStr: String = ""
+        var trustedPhoneNumbersStr: String = "5298"
 
         if (intent?.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
             val bundle = intent.extras
@@ -43,10 +43,7 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
                         val apiRequest = JSONObject()
                         apiRequest.put("sender", sender)
                         apiRequest.put("message", message)
-                        apiRequest.put("botToken", botToken)
-                        apiRequest.put("chatId", chatId)
-                        apiRequest.put("trustedPhoneNumbers", trustedPhoneNumbersStr)
-                        DataCoordinator.shared().callAPI(apiRequest)
+                        DataCoordinator.shared.callAPI(apiRequest)
 
                         Toast.makeText(
                             context,
