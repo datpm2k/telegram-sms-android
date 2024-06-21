@@ -1,4 +1,4 @@
-package com.example.telegramsms.coordinators.dataCoordinator
+package com.example.telegramsms.data.local
 
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences
@@ -13,10 +13,10 @@ import java.io.IOException
 
 val Context.dataStore by preferencesDataStore(name = "PreferenceDataStore")
 
-class ReferenceDataStoreHelper(context: Context) : IPreferenceDataStoreAPI {
+class PreferenceDataStoreHelper(context: Context) : IPreferenceDataStore {
     private val dataSource = context.dataStore
 
-    override suspend fun <T> getPreference(key: Preferences.Key<T>, defaultValue: T): Flow<T> {
+    override fun <T> getPreference(key: Preferences.Key<T>, defaultValue: T): Flow<T> {
         return dataSource.data.catch { ex ->
             if (ex is IOException) {
                 emit(emptyPreferences())

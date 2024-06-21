@@ -75,12 +75,14 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation(libs.gson)
-    // https://mvnrepository.com/artifact/com.android.volley/volley
-    implementation(libs.volley)
 
     // Datastore
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.preferences.rxjava2)
     implementation(libs.androidx.datastore.preferences.rxjava3)
 
+    /**
+     * OkHttpClient
+     */
+    implementation(libs.okhttp)
 }

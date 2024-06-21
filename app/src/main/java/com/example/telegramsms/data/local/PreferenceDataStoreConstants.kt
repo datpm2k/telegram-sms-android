@@ -1,4 +1,4 @@
-package com.example.telegramsms.models.constants
+package com.example.telegramsms.data.local
 
 import androidx.datastore.preferences.core.stringPreferencesKey
 

@@ -6,20 +6,43 @@ import android.content.Intent
 import android.provider.Telephony
 import android.telephony.SmsMessage
 import android.util.Log
-import android.widget.Toast
-import com.example.telegramsms.coordinators.dataCoordinator.DataCoordinator
-import com.example.telegramsms.coordinators.dataCoordinator.callAPI
-import org.json.JSONObject
+import com.example.telegramsms.client.TelegramClient
+import com.example.telegramsms.data.local.PreferenceDataStoreConstants
+import com.example.telegramsms.data.local.PreferenceDataStoreHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 
 class SmsBroadcastReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        Log.d("[SmsBroadcastReceiver]", "onReceive")
+    companion object {
+        const val IDENTIFIER = "[SmsBroadcastReceiver]"
+    }
 
-        var botToken: String = ""
-        var chatId: String = ""
-        var trustedPhoneNumbersStr: String = "5298"
+    private val myCoroutineScope = CoroutineScope(Dispatchers.Main)
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        Log.d(IDENTIFIER, "onReceive")
+
+        val dataStore = PreferenceDataStoreHelper(context!!)
+
+        var botToken: String
+        var chatId: String
+        var trustedPhoneNumbersStr: String
+        runBlocking {
+            botToken = dataStore.getFirstPreference(
+                PreferenceDataStoreConstants.TELEGRAM_BOT_TOKEN, ""
+            )
+            chatId = dataStore.getFirstPreference(
+                PreferenceDataStoreConstants.TELEGRAM_CHAT_ID, ""
+            )
+            trustedPhoneNumbersStr = dataStore.getFirstPreference(
+                PreferenceDataStoreConstants.TELEGRAM_TRUSTED_PHONE_NUMBERS, "5298"
+            )
+        }
+
+        if (botToken === "" || chatId == "") return
 
         if (intent?.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
             val bundle = intent.extras
@@ -29,27 +52,24 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
                     for (pdu in pdus) {
                         val smsMessage = SmsMessage.createFromPdu(pdu as ByteArray)
 
-                        val sender = smsMessage.displayOriginatingAddress
-                        val message = smsMessage.displayMessageBody
+                        val from = smsMessage.displayOriginatingAddress
+                        val content = smsMessage.displayMessageBody
 
-                        Log.i("[SmsBroadcastReceiver]", "Sender: $sender, Message: $message")
+                        Log.i(IDENTIFIER, "From: $from, Content: $content")
 
                         if (trustedPhoneNumbersStr.trim() !== ""
-                            && !trustedPhoneNumbersStr.split(",").contains(sender)
+                            && !trustedPhoneNumbersStr.split(",").contains(from)
                         ) {
                             return
                         }
 
-                        val apiRequest = JSONObject()
-                        apiRequest.put("sender", sender)
-                        apiRequest.put("message", message)
-                        DataCoordinator.shared.callAPI(apiRequest)
+                        val text = """
+                            From: $from
+                            Content: $content
+                        """.trimIndent()
 
-                        Toast.makeText(
-                            context,
-                            "Sender: $sender\nMessage: $message",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        val telegramClient = TelegramClient()
+                        telegramClient.sendMessage(botToken, chatId, text)
                     }
                 }
             }

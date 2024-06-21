@@ -1,4 +1,4 @@
-package com.example.telegramsms.models.constants
+package com.example.telegramsms.constants
 
 object DebuggingIdentifiers {
     const val ACTION_OR_EVENT_IN_PROGRESS = "actionOrEventInProgress"
