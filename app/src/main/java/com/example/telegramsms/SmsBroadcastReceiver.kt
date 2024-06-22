@@ -38,7 +38,7 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
                 PreferenceDataStoreConstants.TELEGRAM_CHAT_ID, ""
             )
             trustedPhoneNumbersStr = dataStore.getFirstPreference(
-                PreferenceDataStoreConstants.TELEGRAM_TRUSTED_PHONE_NUMBERS, "5298"
+                PreferenceDataStoreConstants.TELEGRAM_TRUSTED_PHONE_NUMBERS, ""
             )
         }
 

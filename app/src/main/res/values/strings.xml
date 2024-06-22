@@ -8,6 +8,6 @@
 
     <string name="bot_token">Bot token</string>
     <string name="chat_id">Chat ID</string>
-    <string name="trusted_phone_number">Trusted phone number</string>
+    <string name="trusted_phone_numbers">Trusted phone numbers</string>
     <string name="save">Save</string>
 </resources>

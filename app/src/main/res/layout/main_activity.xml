@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:labelFor="@+id/trusted_phone_number"
-            android:text="@string/trusted_phone_number" />
+            android:text="@string/trusted_phone_numbers" />
 
         <EditText
             android:id="@+id/trusted_phone_number"
