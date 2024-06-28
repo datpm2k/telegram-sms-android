@@ -1,63 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:padding="8dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_height="wrap_content"
+        android:hint="@string/bot_token"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:labelFor="@+id/bot_token"
-            android:text="@string/bot_token" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/bot_token"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="bot_token"
-            android:inputType="text" />
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:labelFor="@+id/chat_id"
-            android:text="@string/chat_id" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/chat_id">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/chat_id"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="chat_id"
-            android:inputType="text" />
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:labelFor="@+id/trusted_phone_number"
-            android:text="@string/trusted_phone_numbers" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/trusted_phone_numbers">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/trusted_phone_number"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="trusted_phone_number"
-            android:inputType="phone" />
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/save" />
+    <Button
+        android:id="@+id/save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="@string/save" />
 
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

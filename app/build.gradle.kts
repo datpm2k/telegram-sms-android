@@ -85,4 +85,10 @@ dependencies {
      * OkHttpClient
      */
     implementation(libs.okhttp)
+
+    /**
+     * UI
+     */
+    // https://mvnrepository.com/artifact/com.google.android.material/material
+    implementation(libs.material.v1130alpha03)
 }
